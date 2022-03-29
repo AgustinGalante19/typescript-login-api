@@ -1,0 +1,8 @@
+node_modules
+.vscode
+package-lock.json
+.env
+src/tests
+tsconfig.json
+types.d.ts
+.eslintrc.js
