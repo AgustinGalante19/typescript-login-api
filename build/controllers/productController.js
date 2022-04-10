@@ -23,7 +23,6 @@ class ProductControllers {
                 if (token) {
                     const payload = (0, TokenLibs_1.getUserId)(req, res);
                     const user = yield userModel_1.default.findById(payload, { password: 0, _id: 0, email: 0 }).populate("products");
-                    console.log(user);
                     return res.json(user);
                 }
                 else {
@@ -40,7 +39,6 @@ class ProductControllers {
             try {
                 const { id } = req.params;
                 const product = yield productModel_1.default.findById(id);
-                console.log(product);
                 return res.status(200).json(product);
             }
             catch (err) {

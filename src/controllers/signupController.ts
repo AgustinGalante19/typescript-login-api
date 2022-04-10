@@ -2,41 +2,77 @@ import { Request, Response } from "express";
 import User from '../models/userModel';
 import IUser from "../interfaces/User";
 import { createToken } from "../libs/TokenLibs";
-
+import validateChars, { validateEmail } from '../services/validateChars';
 class signupCtrls {
 
     async signup(req: Request, res: Response): Promise<Response> {
 
-        //Saving a new user.
-        try {
-            const { name, lastname, email, username, password } = req.body;
-            const user: IUser = new User({
-                name,
-                lastname,
-                email,
-                username,
-                password
+        //Get the user data from the request body.
+        const { name, lastname, email, username, password } = req.body;
+
+        //* This conditional statement is to check if the name have valid characters.
+        if (!validateChars(name)) {
+            return res.status(400).json({
+                status: 400,
+                message: 'Name must be alphanumeric'
             });
-
-
-            const userExists = await User.exists({ username });
-            if (userExists) return res.status(203).json({ userExists: true }).end();
-
-            const emailExists = await User.exists({ email });
-            if (emailExists) return res.status(203).json({ emailExists: true }).end();
-
-            user.password = await user.encryptPassword(user.password);
-            const savedUser = await user.save();
-
-            //Token
-            const token = createToken(user._id);
-
-            //!El token no se almacena en la base de datos.
-            return res.header("auth-token", token).json({ savedUser, token });
-        } catch (err) {
-            return res.status(500).send(err).end();
         }
 
+        //* This conditional statement is to check if the last name have valid characters.
+        else if (!validateChars(lastname)) {
+            return res.status(400).json({
+                status: 400,
+                message: 'Lastname must be alphanumeric'
+            });
+        }
+
+        //* This conditional statement is to check if the username have valid characters.
+        else if (!validateChars(username)) {
+            return res.status(400).json({ message: "Username must be alphanumeric" });
+        }
+        //* This conditional statement is to check if the password have valid characters.
+        else if (!validateChars(password)) {
+            return res.status(400).json({ message: "Password must be alphanumeric" });
+        }
+        //* This conditional statement is to check if the email have valid characters(@, numbers, _, etc).
+        /* else if (!validateEmail(email)) {
+            return res.status(400).json({ message: "invalid email" }); */
+
+            //* If everithything is ok, then we can proceed to create the user in the database.
+        /* }  */else {
+            try {
+
+                //The user has been created with the received data.
+                const user: IUser = new User({
+                    name,
+                    lastname,
+                    email,
+                    username,
+                    password
+                });
+
+                //* We check if the user already exists in the database.
+                const userExists = await User.exists({ username });
+                if (userExists) return res.status(203).json({ userExists: true }).end();
+
+                //* We check if the email already exists in the database.
+                const emailExists = await User.exists({ email });
+                if (emailExists) return res.status(203).json({ emailExists: true }).end();
+
+                //* We encrypt the password to be stored in the database.
+                user.password = await user.encryptPassword(user.password);
+                const savedUser = await user.save();
+
+                //* We create the token for the user.
+                const token = createToken(user._id);
+
+                //* We return the user and the token.
+                return res.header("auth-token", token).json({ savedUser, token });
+            } catch (err) {
+                //* If there is an error, we return the error.
+                return res.status(500).send(err).end();
+            }
+        }
     }
 }
 

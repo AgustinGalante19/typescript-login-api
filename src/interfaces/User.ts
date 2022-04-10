@@ -1,10 +1,12 @@
-import { Document } from "mongoose";
+import { Document, Schema } from "mongoose";
 
 export default interface IUser extends Document {
+    name: string;
+    lastname: string;
     username: string;
     email: string;
     password: string;
-    products: any[];
+    products: Schema.Types.ObjectId[];
     encryptPassword(password: string): Promise<string>;
     validatePassword(password: string): Promise<boolean>;
 }

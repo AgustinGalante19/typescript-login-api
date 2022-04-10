@@ -19,18 +19,10 @@ class UserControllers {
     }
 
     async getUserById(req: Request, res: Response): Promise<Response> {
-        const { role } = req.headers;
-        try {
-            if (role === "admin") {
-                const { id } = req.params;
-                const user = await User.findById({ _id: id }, { password: 0 });
-                return res.json(user);
-            }else{
-                return res.status(403).send("Forbidden").end();
-            }
-        } catch (err) {
-            return res.status(500).end();
-        }
+        const { id } = req.params;
+        const user = await User.findById({ _id: id }, { password: 0, products: 0, username: 0, _id: 0 });
+        console.log(user)
+        return res.json(user);
     }
 
     async profile(req: Request, res: Response): Promise<Response> {

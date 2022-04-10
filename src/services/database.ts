@@ -1,7 +1,10 @@
 import { connect, connection } from 'mongoose';
+interface IConnection {
+    isConnected: number;
+}
 
-const conn: any = {
-    isConnected: false,
+const conn: IConnection = {
+    isConnected: 0,
 }
 
 export async function dbConnect() {
@@ -15,6 +18,6 @@ connection.on("connected", () => {
     console.log("connected to mongodb");
 });
 
-connection.on("error", (err: any) => {
+connection.on("error", (err) => {
     console.log(err);
 });

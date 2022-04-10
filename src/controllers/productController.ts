@@ -6,13 +6,13 @@ import { getToken, getUserId } from "../libs/TokenLibs";
 class ProductControllers {
 
     async getUserProducts(req: Request, res: Response): Promise<Response> {
-        const token = getToken(req);
-        try {
 
+        const token = getToken(req);
+
+        try {
             if (token) {
                 const payload = getUserId(req, res);
                 const user = await User.findById(payload, { password: 0, _id: 0, email: 0 }).populate("products");
-                console.log(user)
                 return res.json(user);
             } else {
                 return res.status(401).send("invalid toke, signin again.");
@@ -20,6 +20,7 @@ class ProductControllers {
         } catch (err) {
             return res.status(400).send("token not provided.").end();
         }
+
     }
 
     async getProductById(req: Request, res: Response): Promise<Response> {
@@ -27,7 +28,6 @@ class ProductControllers {
         try {
             const { id } = req.params;
             const product = await Product.findById(id);
-            console.log(product)
             return res.status(200).json(product);
         } catch (err) {
             console.log(err);

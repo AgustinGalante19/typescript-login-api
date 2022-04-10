@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.dbConnect = void 0;
 const mongoose_1 = require("mongoose");
 const conn = {
-    isConnected: false,
+    isConnected: 0,
 };
 function dbConnect() {
     return __awaiter(this, void 0, void 0, function* () {
