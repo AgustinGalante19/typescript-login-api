@@ -18,7 +18,6 @@ const TokenValidation = (req, res, next) => {
         if (token) {
             const payload = jsonwebtoken_1.default.verify(token, process.env.MY_SECRET || "tokentest");
             req.userId = payload._id;
-            console.log("validated token.");
             next();
             return true;
         }

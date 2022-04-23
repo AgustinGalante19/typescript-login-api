@@ -37,7 +37,6 @@ class signinCtrls {
 
                 //* If the password isn't valid, return a message with the error.
                 if (!pswIsValid) {
-                    console.log("invalid password")
                     return res.status(203).json({ password: pswIsValid }).end();
                 }
 

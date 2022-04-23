@@ -59,8 +59,8 @@ class ProductControllers {
                 try {
                     if (token) {
                         const newProduct = new productModel_1.default({
-                            name,
-                            brand,
+                            name: name[0].toUpperCase() + name.slice(1),
+                            brand: brand[0].toUpperCase() + brand.slice(1),
                             model,
                             quantity,
                             seller_id: user._id

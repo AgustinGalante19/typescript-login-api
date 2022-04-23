@@ -42,11 +42,8 @@ class signupCtrls {
             else if (!(0, validateChars_1.default)(password)) {
                 return res.status(400).json({ message: "Password must be alphanumeric" });
             }
-            //* This conditional statement is to check if the email have valid characters(@, numbers, _, etc).
-            /* else if (!validateEmail(email)) {
-                return res.status(400).json({ message: "invalid email" }); */
             //* If everithything is ok, then we can proceed to create the user in the database.
-            /* }  */ else {
+            else {
                 try {
                     //The user has been created with the received data.
                     const user = new userModel_1.default({
@@ -66,6 +63,8 @@ class signupCtrls {
                         return res.status(203).json({ emailExists: true }).end();
                     //* We encrypt the password to be stored in the database.
                     user.password = yield user.encryptPassword(user.password);
+                    user.name = user.name[0].toUpperCase() + user.name.slice(1);
+                    user.lastname = user.lastname[0].toUpperCase() + user.lastname.slice(1);
                     const savedUser = yield user.save();
                     //* We create the token for the user.
                     const token = (0, TokenLibs_1.createToken)(user._id);

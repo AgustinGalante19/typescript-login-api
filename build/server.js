@@ -43,4 +43,3 @@ class Server {
 }
 const server = new Server();
 server.start();
-//TODO: only send the products to the get stock request.

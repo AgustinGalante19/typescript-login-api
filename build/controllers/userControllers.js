@@ -34,21 +34,8 @@ class UserControllers {
     }
     getUserById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            /* const { role } = req.headers;
-            try {
-                if (role === "admin") {
-                    const { id } = req.params;
-                    const user = await User.findById({ _id: id }, { password: 0 });
-                    return res.json(user);
-                } else {
-                    return res.status(403).send("Forbidden").end();
-                }
-            } catch (err) {
-                return res.status(500).end();
-            } */
             const { id } = req.params;
             const user = yield userModel_1.default.findById({ _id: id }, { password: 0, products: 0, username: 0, _id: 0 });
-            console.log(user);
             return res.json(user);
         });
     }

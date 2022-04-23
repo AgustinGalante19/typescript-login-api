@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import User from '../models/userModel';
 import IUser from "../interfaces/User";
 import { createToken } from "../libs/TokenLibs";
-import validateChars, { validateEmail } from '../services/validateChars';
+import validateChars from '../services/validateChars';
 class signupCtrls {
 
     async signup(req: Request, res: Response): Promise<Response> {
@@ -34,12 +34,9 @@ class signupCtrls {
         else if (!validateChars(password)) {
             return res.status(400).json({ message: "Password must be alphanumeric" });
         }
-        //* This conditional statement is to check if the email have valid characters(@, numbers, _, etc).
-        /* else if (!validateEmail(email)) {
-            return res.status(400).json({ message: "invalid email" }); */
 
-            //* If everithything is ok, then we can proceed to create the user in the database.
-        /* }  */else {
+        //* If everithything is ok, then we can proceed to create the user in the database.
+        else {
             try {
 
                 //The user has been created with the received data.
@@ -61,6 +58,8 @@ class signupCtrls {
 
                 //* We encrypt the password to be stored in the database.
                 user.password = await user.encryptPassword(user.password);
+                user.name = user.name[0].toUpperCase() + user.name.slice(1);
+                user.lastname = user.lastname[0].toUpperCase() + user.lastname.slice(1);
                 const savedUser = await user.save();
 
                 //* We create the token for the user.

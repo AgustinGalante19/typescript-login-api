@@ -45,7 +45,6 @@ class signinCtrls {
                     const pswIsValid = yield user.validatePassword(password);
                     //* If the password isn't valid, return a message with the error.
                     if (!pswIsValid) {
-                        console.log("invalid password");
                         return res.status(203).json({ password: pswIsValid }).end();
                     }
                     //* The token is created and sent as response.

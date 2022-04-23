@@ -21,7 +21,6 @@ class UserControllers {
     async getUserById(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const user = await User.findById({ _id: id }, { password: 0, products: 0, username: 0, _id: 0 });
-        console.log(user)
         return res.json(user);
     }
 

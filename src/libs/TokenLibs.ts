@@ -18,7 +18,6 @@ export const TokenValidation = (req: Request, res: Response, next: NextFunction)
         if (token) {
             const payload = jwt.verify(token, process.env.MY_SECRET || "tokentest") as IPayload;
             req.userId = payload._id;
-            console.log("validated token.");
             next();
             return true;
         } else {
