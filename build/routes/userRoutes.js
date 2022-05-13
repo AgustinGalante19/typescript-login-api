@@ -13,6 +13,7 @@ class UserRoutes {
     routes() {
         this.router.get("/all", userControllers_1.default.getUsers);
         this.router.get("/:id", userControllers_1.default.getUserById);
+        this.router.post("/edit/:id", userControllers_1.default.editProfile);
     }
 }
 const userRotes = new UserRoutes();

@@ -81,9 +81,14 @@ class ProductControllers {
         try {
             const { id } = req.params;
             const { name, brand, model, quantity } = req.body;
-            const product = await Product.findOneAndUpdate({ _id: id }, { name, brand, model, quantity }, { new: true });
+            const product = await Product.findOneAndUpdate({ _id: id },
+                {
+                    name, brand, model, quantity
+                }, { new: true }
+            );
             return res.status(200).json(product).end();
         } catch (err) {
+            console.log(err);
             return res.status(500).end();
         }
 

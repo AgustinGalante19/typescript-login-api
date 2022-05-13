@@ -20,10 +20,11 @@ const UserSchema = new mongoose_1.Schema({
     username: { type: String, unique: true, required: true, min: 4, lowercase: true },
     email: { type: String, unique: true, required: true, lowercase: true },
     password: { type: String, required: true, min: 8 },
+    description: { type: String, required: false, max: 250, default: "" },
     products: [{
             type: mongoose_1.Schema.Types.ObjectId,
             ref: "Product"
-        }]
+        }],
 }, {
     versionKey: false,
 });

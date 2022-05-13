@@ -35,6 +35,21 @@ class UserControllers {
         }
     }
 
+    async editProfile(req: Request, res: Response): Promise<Response> {
+
+        try {
+
+            const { id } = req.params;
+            const { name, lastname, email, description } = req.body;
+            await User.findOneAndUpdate({ _id: id }, { name, lastname, email, description }, { new: true });
+            return res.status(200).json(true).end();
+        } catch (err) {
+            console.log("Error on edit profile: ", err);
+            return res.status(500).send(false).end();
+        }
+
+    }
+
 }
 
 const userController = new UserControllers();

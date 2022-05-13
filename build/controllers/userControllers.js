@@ -52,6 +52,20 @@ class UserControllers {
             }
         });
     }
+    editProfile(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id } = req.params;
+                const { name, lastname, email, description } = req.body;
+                yield userModel_1.default.findOneAndUpdate({ _id: id }, { name, lastname, email, description }, { new: true });
+                return res.status(200).json(true).end();
+            }
+            catch (err) {
+                console.log("Error on edit profile: ", err);
+                return res.status(500).send(false).end();
+            }
+        });
+    }
 }
 const userController = new UserControllers();
 exports.default = userController;
